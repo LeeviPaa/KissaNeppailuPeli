@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e307e5ffd57a94f95d073bb694bd67, type: 3}
+  m_Name: LevelData
+  m_EditorClassIdentifier: 
+  collectibleTokenValue: 100000
+  inverseTimeMultiplier: 10
+  FlickScorePoints: 40420f0040420f0040420f0050f80c00b0710b0020a10700801a0600e0930400400d0300a086010050c30000a86100001027000088130000c4090000
