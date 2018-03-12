@@ -12,8 +12,19 @@ public struct GameInstanceData
 
 }
 
-public class LevelInstance : MonoBehaviour {
+public struct GameSaveData
+{
+    public List<LevelSaveData> leveldata;
+}
+public struct LevelSaveData
+{
+    public int index;
+    public bool locked;
+    public int highscore;
+}
 
+public class LevelInstance : MonoBehaviour {
+    
     private bool GameGoing = false;
     private EventManager EM;
     private GameInstanceData CurrGameInstance;
@@ -21,14 +32,25 @@ public class LevelInstance : MonoBehaviour {
     public GlobalScoreData_SC globalData;
     private delegate void OnLevelWasLoaded();
 
+    //persistency
+    private GameSaveData saveData;
+
     private void OnEnable()
     {
+        //Find savedata
+        //LoadGameSaveData();
+
         EM = Toolbox.RegisterComponent<EventManager>();
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
+
+        Debug.Log(SceneManager.sceneCountInBuildSettings.ToString());
     }
     private void OnDisable()
     {
-        
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+
+        //save data on disable
+        SaveGameData(saveData);
     }
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
@@ -62,7 +84,7 @@ public class LevelInstance : MonoBehaviour {
             Debug.Log("Timer going!");
         }
     }
-#region Public game-control methods
+    #region Public game-control methods
     public void NeppausIncrement()
     {
         CurrGameInstance.flicks++;
@@ -91,6 +113,7 @@ public class LevelInstance : MonoBehaviour {
         EM.BroadcastGameComplete();
     }
     #endregion
+    #region gamePoints
     public int getFlicks
     {
         get
@@ -165,5 +188,66 @@ public class LevelInstance : MonoBehaviour {
         int points = (getFlickPoints() + getCollectibleTokenPoints()) * getTimeMultiplier();
         return points;
     }
+    #endregion
+    #region loading and saving data
+    public GameSaveData LoadGameSaveData()
+    {
+        //if find local save file, load it
+        if(false)
+        {
+            //load and deserialize the data;
+        }
+        else //else create new save file
+        {
+            saveData = new GameSaveData();
 
+            int maxScenes = SceneManager.sceneCountInBuildSettings;
+            for (int i = 1; i < maxScenes; i++)
+            {
+                LevelSaveData ld = new LevelSaveData();
+                ld.index = i;
+                if (i == 1)
+                {
+                    //first level always unlocked
+                    ld.locked = false;
+                }
+                else
+                    ld.locked = true;
+
+                ld.highscore = 0;
+
+                //
+                //NULL REFERENCE HERE!!!
+                //CREATE A LIST VARIABLE, MODIFY IT AND THEN SAVE IT, DON*T DIRECTLY MODIFY LIKE HERE!
+                //
+                saveData.leveldata.Add(ld);
+            }
+        }
+
+        //whatever happened, we return the savedata object
+        return saveData;
+        
+    }
+    private void SaveGameData(GameSaveData data)
+    {
+        // serialize and save the data
+    }
+    private void LevelComplete()
+    {
+        //current scene
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        //if next scene exists, unlock it
+        if ((sceneIndex + 1) < SceneManager.sceneCountInBuildSettings)
+        {
+            LevelSaveData lsd = saveData.leveldata[sceneIndex + 1];
+            lsd.locked = false;
+            saveData.leveldata[sceneIndex + 1] = lsd;
+
+        }
+
+        //save the data
+        SaveGameData(saveData);
+    }
+    #endregion
 }

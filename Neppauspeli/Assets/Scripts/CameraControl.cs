@@ -34,6 +34,6 @@ public class CameraControl : MonoBehaviour {
     void movement()
     {
         transform.position = player.transform.position;
-        transform.Rotate(0, Input.GetAxis("Horizontal2")*rotspeed, 0);
+        transform.Rotate(0, Input.GetAxis("Horizontal2")*rotspeed*Time.deltaTime, 0);
     }
 }
