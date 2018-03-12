@@ -34,11 +34,19 @@ public class LevelInstance : MonoBehaviour {
 
     //persistency
     private GameSaveData saveData;
+    public GameSaveData SaveData
+    {
+        get
+        {
+            return saveData;
+        }
+    }
 
     private void OnEnable()
     {
         //Find savedata
-        //LoadGameSaveData();
+        saveData = LoadGameSaveData();
+        Debug.Log("enable");
 
         EM = Toolbox.RegisterComponent<EventManager>();
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -81,7 +89,6 @@ public class LevelInstance : MonoBehaviour {
             yield return new WaitForSeconds(1);
             CurrGameInstance.time++;
             EM.BroadcastLevelTimerUpdate((int)CurrGameInstance.time);
-            Debug.Log("Timer going!");
         }
     }
     #region Public game-control methods
@@ -111,6 +118,7 @@ public class LevelInstance : MonoBehaviour {
     {
         GameGoing = false;
         EM.BroadcastGameComplete();
+        LevelComplete();
     }
     #endregion
     #region gamePoints
@@ -190,7 +198,7 @@ public class LevelInstance : MonoBehaviour {
     }
     #endregion
     #region loading and saving data
-    public GameSaveData LoadGameSaveData()
+    private GameSaveData LoadGameSaveData()
     {
         //if find local save file, load it
         if(false)
@@ -202,6 +210,8 @@ public class LevelInstance : MonoBehaviour {
             saveData = new GameSaveData();
 
             int maxScenes = SceneManager.sceneCountInBuildSettings;
+
+            saveData.leveldata = new List<LevelSaveData>();
             for (int i = 1; i < maxScenes; i++)
             {
                 LevelSaveData ld = new LevelSaveData();
@@ -216,10 +226,7 @@ public class LevelInstance : MonoBehaviour {
 
                 ld.highscore = 0;
 
-                //
-                //NULL REFERENCE HERE!!!
-                //CREATE A LIST VARIABLE, MODIFY IT AND THEN SAVE IT, DON*T DIRECTLY MODIFY LIKE HERE!
-                //
+                //Note: This is the 0th index (1st level)
                 saveData.leveldata.Add(ld);
             }
         }
@@ -236,14 +243,15 @@ public class LevelInstance : MonoBehaviour {
     {
         //current scene
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(sceneIndex);
 
         //if next scene exists, unlock it
-        if ((sceneIndex + 1) < SceneManager.sceneCountInBuildSettings)
+        //next scene index on the list is the same as this scene's index because fuck it
+        if ((sceneIndex+1) < SceneManager.sceneCountInBuildSettings)
         {
-            LevelSaveData lsd = saveData.leveldata[sceneIndex + 1];
+            LevelSaveData lsd = saveData.leveldata[sceneIndex];
             lsd.locked = false;
-            saveData.leveldata[sceneIndex + 1] = lsd;
-
+            saveData.leveldata[sceneIndex] = lsd;
         }
 
         //save the data

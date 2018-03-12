@@ -25,21 +25,44 @@ public class MainMenuController : MonoBehaviour {
     private LevelInstance LI;
     private EventManager EM;
 
-	void Start () {
-        if (MainCamera == null)
-            Debug.LogError("MainCamera not found!!");
-
+    private void OnEnable()
+    {
         LI = Toolbox.RegisterComponent<LevelInstance>();
         EM = Toolbox.RegisterComponent<EventManager>();
 
-        FormatLevelList();
-	}
-    void FormatLevelList()
+        SceneManager.sceneLoaded += FormatLevelList;
+    }
+    private void OnDisable()
     {
+        SceneManager.sceneLoaded -= FormatLevelList;
+    }
+
+    void Start () {
+        if (MainCamera == null)
+            Debug.LogError("MainCamera not found!!");
+
+        
+	}
+    void FormatLevelList(Scene s, LoadSceneMode m)
+    {
+        //coroutine is because the object is being created on the same frame or something
+        StartCoroutine(delaySceneCheck());
+    }
+    private IEnumerator delaySceneCheck()
+    {
+        yield return null;
         // here we check which levels are locked and which are not
 
         //Level 1 always is unlocked;
         UnlockLevel(1);
+
+        foreach (LevelSaveData lsd in LI.SaveData.leveldata)
+        {
+            if (!lsd.locked)
+            {
+                UnlockLevel(lsd.index);
+            }
+        }
     }
 	
 	void Update () {
