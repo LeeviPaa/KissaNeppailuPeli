@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public struct GameInstanceData
 {
@@ -12,10 +14,12 @@ public struct GameInstanceData
 
 }
 
+[System.Serializable]
 public struct GameSaveData
 {
     public List<LevelSaveData> leveldata;
 }
+[System.Serializable]
 public struct LevelSaveData
 {
     public int index;
@@ -44,6 +48,7 @@ public class LevelInstance : MonoBehaviour {
 
     private void OnEnable()
     {
+        Debug.Log(Application.persistentDataPath);
         //Find savedata
         saveData = LoadGameSaveData();
         Debug.Log("enable");
@@ -200,18 +205,42 @@ public class LevelInstance : MonoBehaviour {
     #region loading and saving data
     private GameSaveData LoadGameSaveData()
     {
+        bool deserializeSuccessfull = true;
+
+        GameSaveData newSaveData = new GameSaveData();
+
+
         //if find local save file, load it
-        if(false)
+        if (File.Exists(Application.persistentDataPath + "/playerdata.dat"))
         {
             //load and deserialize the data;
+
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/playerdata.dat", FileMode.Open);
+            try
+            {
+                newSaveData = (GameSaveData)bf.Deserialize(file);
+            }
+            catch
+            {
+                deserializeSuccessfull = false;
+                Debug.LogError("Unable to load save data");
+            }
+
+            file.Close();
         }
-        else //else create new save file
+        else
         {
-            saveData = new GameSaveData();
+            deserializeSuccessfull = false;
+        }
+            
+        
+        if(!deserializeSuccessfull) //if not successfull, create new save file
+        {
 
             int maxScenes = SceneManager.sceneCountInBuildSettings;
 
-            saveData.leveldata = new List<LevelSaveData>();
+            newSaveData.leveldata = new List<LevelSaveData>();
             for (int i = 1; i < maxScenes; i++)
             {
                 LevelSaveData ld = new LevelSaveData();
@@ -227,17 +256,29 @@ public class LevelInstance : MonoBehaviour {
                 ld.highscore = 0;
 
                 //Note: This is the 0th index (1st level)
-                saveData.leveldata.Add(ld);
+                newSaveData.leveldata.Add(ld);
             }
+
+            SaveGameData(newSaveData);
         }
 
         //whatever happened, we return the savedata object
-        return saveData;
+        return newSaveData;
         
     }
     private void SaveGameData(GameSaveData data)
     {
+        
         // serialize and save the data
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file;
+        if(File.Exists(Application.persistentDataPath + "/playerdata.dat"))
+            file = File.Open(Application.persistentDataPath + "/playerdata.dat", FileMode.Open);
+        else
+            file = File.Create(Application.persistentDataPath + "/playerdata.dat");
+        
+        bf.Serialize(file, data);
+        file.Close();
     }
     private void LevelComplete()
     {
