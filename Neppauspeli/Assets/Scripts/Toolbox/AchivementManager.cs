@@ -63,7 +63,7 @@ class AchivementManager : MonoBehaviour
         UpdateStats();
 
         em = Toolbox.RegisterComponent<EventManager>();
-
+        
         em.GameComplete += Stat_GamesPlayed;
         em.TokenAmount += Stat_GemsCollected;
         em.Achivement_FinalLevel += Achivement_FinalLevel;
