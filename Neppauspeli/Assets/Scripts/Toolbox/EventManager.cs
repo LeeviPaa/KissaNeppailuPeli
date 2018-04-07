@@ -88,5 +88,22 @@ public class EventManager : MonoBehaviour
             PlayerRespawn();
         }
     }
+
+    public event Void Achivement_Millionare;
+    public void BroadcastAchivementMillionare()
+    {
+        if(Achivement_Millionare != null)
+        {
+            Achivement_Millionare();
+        }
+    }
+    public event Void Achivement_FinalLevel;
+    public void BroadcastAchivementFinalLevel()
+    {
+        if(Achivement_FinalLevel!= null)
+        {
+            Achivement_FinalLevel();
+        }
+    }
     
 }

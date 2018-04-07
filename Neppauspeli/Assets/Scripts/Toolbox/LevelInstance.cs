@@ -199,6 +199,10 @@ public class LevelInstance : MonoBehaviour {
     public int getTotalPoints()
     {
         int points = (getFlickPoints() + getCollectibleTokenPoints()) * getTimeMultiplier();
+        if(points >= 6000000)
+        {
+            EM.BroadcastAchivementMillionare();
+        }
         return points;
     }
     #endregion
@@ -286,6 +290,10 @@ public class LevelInstance : MonoBehaviour {
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         Debug.Log(sceneIndex);
 
+        if(sceneIndex == 18)
+        {
+            EM.BroadcastAchivementFinalLevel();
+        }
         //if next scene exists, unlock it
         //next scene index on the list is the same as this scene's index because fuck it
         if ((sceneIndex+1) < SceneManager.sceneCountInBuildSettings)
