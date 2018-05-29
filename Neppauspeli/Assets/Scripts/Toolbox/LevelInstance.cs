@@ -147,6 +147,7 @@ public class LevelInstance : MonoBehaviour {
         {
             levelToLoad = index;
             fadeAtor.SetTrigger("FadeOut");
+            EM.BroadcastLevelFadeStart();
         }
 
     }

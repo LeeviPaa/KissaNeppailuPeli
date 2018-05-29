@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class AudioGenerator : MonoBehaviour {
 
-    AudioSource thisAudioSource;
-    private float[] samples = new float[512];
+    public AudioSource thisAudioSource;
+    Animator thisAnim;
+    private float[] samples = new float[64];
     public List<Transform> audioBlocks = new List<Transform>();
     public float lerpSpeed = 1;
     public float scaleMultiplier = 10;
     public float maxHeight = 100;
-
-
-	void Start () {
-        thisAudioSource = GetComponent<AudioSource>();
-	}
-	
-	void Update ()
+    
+    void Update ()
     {
         GetSpectrumData();
         BlockAudioSync();
@@ -32,7 +28,7 @@ public class AudioGenerator : MonoBehaviour {
         int i = 0;
         foreach(Transform t in audioBlocks)
         {
-            int a = (512 / 8) - 1;
+            int a = (64 / audioBlocks.Count) - 1;
             float scaleMult = samples[i * a] * scaleMultiplier;
             scaleMult = Mathf.Clamp(scaleMult, 5, 5 + maxHeight);
             t.localScale = Vector3.Lerp(t.localScale, new Vector3(t.localScale.x, scaleMult, t.localScale.z), lerpSpeed * Time.deltaTime);

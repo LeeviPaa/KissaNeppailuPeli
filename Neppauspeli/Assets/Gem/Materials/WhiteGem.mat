@@ -41,7 +41,7 @@ Material:
     - _IndexOfRefraction: 2.14
     - _ReflectionStrength: 1.03
     m_Colors:
-    - _Color: {r: 0.57233995, g: 0.83150417, b: 0.9852941, a: 1}
+    - _Color: {r: 0.9622642, g: 0.57047063, b: 0, a: 1}
     - _MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
     - _ReflectTex_ST: {r: 1, g: 1, b: 0, a: 0}
     - _RefractTex_ST: {r: 1, g: 1, b: 0, a: 0}

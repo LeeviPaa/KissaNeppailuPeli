@@ -105,5 +105,14 @@ public class EventManager : MonoBehaviour
             Achivement_FinalLevel();
         }
     }
+
+    public event Void LevelFadeStart;
+    public void BroadcastLevelFadeStart()
+    {
+        if(LevelFadeStart != null)
+        {
+            LevelFadeStart();
+        }
+    }
     
 }
