@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: DeathCube
-  m_Shader: {fileID: 4800000, guid: d39b688820a1d8c4894fdc2c5f9a9029, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3a8468acf0fda954fbefe5643a2da0c1, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
@@ -54,8 +54,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 84508b93f15f2b64386ec07486afc7a3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _TopTexture0:
-        m_Texture: {fileID: 2800000, guid: b303309cfcd3d7f40b0d7be499e99fb9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8116db9ba559bf84d9c75436f50b6213, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -73,13 +77,13 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
-    - _Tiling: 0.25
+    - _Tiling: 0.19
     - _UVSec: 0
     - _ZWrite: 0
     - __dirty: 0
     m_Colors:
     - _Color: {r: 0.4044118, g: 0, b: 0, a: 1}
-    - _Emission: {r: 0.41176468, g: 0, b: 0, a: 0}
+    - _Emission: {r: 0.9151496, g: 0, b: 0.13340056, a: 0}
     - _EmissionColor: {r: 14.462, g: 0, b: 0, a: 1}
     - _Metallic: {r: 0, g: 0, b: 0, a: 0}
     - _Smoothness: {r: 0, g: 0, b: 0, a: 0}
