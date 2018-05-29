@@ -34,6 +34,20 @@ namespace AmplifyShaderEditor
 			return selectedIndex;
 		}
 
+		public int DrawWidget( ParentNode owner, int selectedIndex, string[] displayedOptions, int[] optionValues )
+		{
+			if( owner.DropdownEditing )
+			{
+				int newValue = owner.EditorGUIIntPopup( owner.DropdownRect, selectedIndex, displayedOptions, optionValues, UIUtils.PropertyPopUp );
+				if( newValue != selectedIndex )
+				{
+					owner.DropdownEditing = false;
+				}
+				return newValue;
+			}
+			return selectedIndex;
+		}
+
 		// GC free version
 		public void DrawWidget<TEnum>( ref TEnum selectedIndex, ParentNode owner, Action<ParentNode> callback ) where TEnum : struct
 		{

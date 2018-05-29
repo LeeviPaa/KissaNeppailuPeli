@@ -35,6 +35,9 @@ public class LevelInstance : MonoBehaviour {
     private GameInstanceData PrevGameInstance;
     public GlobalScoreData_SC globalData;
     private delegate void OnLevelWasLoaded();
+    public Animator fadeAtor;
+
+    private int levelToLoad = 0;
 
     //persistency
     private GameSaveData saveData;
@@ -65,9 +68,18 @@ public class LevelInstance : MonoBehaviour {
         //save data on disable
         SaveGameData(saveData);
     }
+    private bool firstTime = true;
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        
+        if (firstTime)
+        {
+            firstTime = false;
+        }
+        else
+        {
+            fadeAtor.SetTrigger("FadeIn");
+        }
+
         StopAllCoroutines();
         if (scene.buildIndex != 0)
         {
@@ -112,18 +124,35 @@ public class LevelInstance : MonoBehaviour {
         GameGoing = false;
         PrevGameInstance = CurrGameInstance;
         CurrGameInstance = new GameInstanceData();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        LoadLevelIndex(SceneManager.GetActiveScene().buildIndex);
     }
     public void ReturnToMainMenu()
     {
         GameGoing = false;
-        SceneManager.LoadScene(0);
+
+        LoadLevelIndex(0);
     }
     public void GameComplete()
     {
         GameGoing = false;
         EM.BroadcastGameComplete();
         LevelComplete();
+    }
+    public void LoadLevelIndex(int index)
+    {
+        if (index >= SceneManager.sceneCountInBuildSettings)
+            Debug.LogError("SceneWith scene index: " + index + " not found!");
+        else
+        {
+            levelToLoad = index;
+            fadeAtor.SetTrigger("FadeOut");
+        }
+
+    }
+    public void FadeOutComplete()
+    {
+        SceneManager.LoadScene(levelToLoad);
     }
     #endregion
     #region gamePoints

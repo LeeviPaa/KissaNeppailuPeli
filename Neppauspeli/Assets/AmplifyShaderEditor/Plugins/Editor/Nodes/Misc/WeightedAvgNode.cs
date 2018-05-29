@@ -33,6 +33,15 @@ namespace AmplifyShaderEditor
 			AddInputPort( WirePortDataType.FLOAT, false, AmountsStr[ 3 ] );
 			AddOutputPort( WirePortDataType.FLOAT, Constants.EmptyPortValue );
 
+			for( int i = 0; i < m_inputPorts.Count; i++ )
+			{
+				m_inputPorts[ i ].AddPortForbiddenTypes(	WirePortDataType.FLOAT3x3,
+															WirePortDataType.FLOAT4x4,
+															WirePortDataType.SAMPLER1D,
+															WirePortDataType.SAMPLER2D,
+															WirePortDataType.SAMPLER3D,
+															WirePortDataType.SAMPLERCUBE );
+			}
 			UpdateConnection( 0 );
 			m_useInternalPortData = true;
 		}
@@ -78,22 +87,26 @@ namespace AmplifyShaderEditor
 					case WirePortDataType.FLOAT:
 					{
 						UpdateInputPorts( 1 );
+						m_previewMaterialPassId = 0;
 					}
 					break;
 					case WirePortDataType.FLOAT2:
 					{
 						UpdateInputPorts( 2 );
+						m_previewMaterialPassId = 1;
 					}
 					break;
 					case WirePortDataType.FLOAT3:
 					{
 						UpdateInputPorts( 3 );
+						m_previewMaterialPassId = 2;
 					}
 					break;
 					case WirePortDataType.COLOR:
 					case WirePortDataType.FLOAT4:
 					{
 						UpdateInputPorts( 4 );
+						m_previewMaterialPassId = 3;
 					}
 					break;
 					case WirePortDataType.OBJECT:

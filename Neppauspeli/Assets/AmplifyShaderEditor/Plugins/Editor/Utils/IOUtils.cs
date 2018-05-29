@@ -169,6 +169,17 @@ namespace AmplifyShaderEditor
 		public static string ShowTipsWindowGUID = "066674048bbb1e64e8cdcc6c3b4abbeb";
 		public static string ShowConsoleWindowGUID = "9a81d7df8e62c044a9d1cada0c8a2131";
 
+
+		public static Dictionary<string, string> NodeTypeReplacer = new Dictionary<string, string>()
+		{
+			{"AmplifyShaderEditor.SimpleMaxOp", "AmplifyShaderEditor.SimpleMaxOpNode"},
+			{"AmplifyShaderEditor.SimpleMinNode", "AmplifyShaderEditor.SimpleMinOpNode"},
+			{"AmplifyShaderEditor.TFHCRemap", "AmplifyShaderEditor.TFHCRemapNode"},
+			{"AmplifyShaderEditor.TFHCPixelateUV", "AmplifyShaderEditor.TFHCPixelate"},
+			{"AmplifyShaderEditor.VirtualTexturePropertyNode", "AmplifyShaderEditor.VirtualTextureObject"},
+
+		};
+
 		private static readonly string AmplifyShaderEditorDefineSymbol = "AMPLIFY_SHADER_EDITOR";
 
 		/////////////////////////////////////////////////////////////////////////////
@@ -267,6 +278,21 @@ namespace AmplifyShaderEditor
 
 				//ASEFolderPath = AssetDatabase.GUIDToAssetPath( ASEFolderGUID );
 				//ASEResourcesPath = ASEFolderPath + ASEResourcesPath;
+			}
+		}
+
+		public static void UpdateSFandRefreshWindows( AmplifyShaderFunction function )
+		{
+			for( int i = 0; i < AllOpenedWindows.Count; i++ )
+			{
+				AllOpenedWindows[ i ].LateRefreshAvailableNodes();
+				if( AllOpenedWindows[ i ].IsShaderFunctionWindow )
+				{
+					if( AllOpenedWindows[ i ].OpenedShaderFunction == function )
+					{
+						AllOpenedWindows[ i ].UpdateTabTitle();
+					}
+				}
 			}
 		}
 

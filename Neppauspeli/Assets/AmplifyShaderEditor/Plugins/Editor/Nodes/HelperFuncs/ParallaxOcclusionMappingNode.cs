@@ -1,3 +1,6 @@
+// Amplify Shader Editor - Visual Shader Editing Tool
+// Copyright (c) Amplify Creations, Lda <info@amplify.pt>
+
 using UnityEngine;
 using UnityEditor;
 
@@ -105,6 +108,7 @@ namespace AmplifyShaderEditor
 				UpdateSampler();
 				GeneratePOMfunction();
 			}
+			EditorGUIUtility.labelWidth = 105;
 
 			m_minSamples = EditorGUILayoutIntSlider( "Min Samples", m_minSamples, 1, 128 );
 			m_maxSamples = EditorGUILayoutIntSlider( "Max Samples", m_maxSamples, 1, 128 );
@@ -124,7 +128,7 @@ namespace AmplifyShaderEditor
 			EditorGUI.BeginDisabledGroup( m_refPlanePort.IsConnected );
 			m_defaultRefPlane = EditorGUILayoutSlider( "Default Ref Plane", m_defaultRefPlane, 0, 1 );
 			EditorGUI.EndDisabledGroup();
-
+			EditorGUIUtility.labelWidth = m_textLabelWidth;
 			EditorGUI.BeginChangeCheck();
 			m_useTextureArray = EditorGUILayoutToggle( "Use Texture Array", m_useTextureArray );
 			if( EditorGUI.EndChangeCheck() )
@@ -191,11 +195,11 @@ namespace AmplifyShaderEditor
 
 			GeneratePOMfunction();
 
-			string textcoords = m_uvPort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT2, false, true );
-			string texture = m_texPort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.SAMPLER2D, false, true );
+			string textcoords = m_uvPort.GeneratePortInstructions( ref dataCollector );
+			string texture = m_texPort.GeneratePortInstructions( ref dataCollector );
 			string scale = m_defaultScale.ToString();
 			if( m_scalePort.IsConnected )
-				scale = m_scalePort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false,true );
+				scale = m_scalePort.GeneratePortInstructions( ref dataCollector );
 
 			string viewDirTan = "";
 			if ( !m_viewdirTanPort.IsConnected )
@@ -206,30 +210,29 @@ namespace AmplifyShaderEditor
 				
 				if ( dataCollector.IsTemplate )
 				{
-					viewDirTan = dataCollector.TemplateDataCollectorInstance.GetTangenViewDir();
+					viewDirTan = dataCollector.TemplateDataCollectorInstance.GetTangentViewDir( m_currentPrecisionType );
 				}
 				else
 				{
-					string inputViewDirTan = UIUtils.GetInputDeclarationFromType( m_currentPrecisionType, AvailableSurfaceInputs.VIEW_DIR );
-					dataCollector.AddToInput( UniqueId, inputViewDirTan, true );
-					viewDirTan = Constants.InputVarStr + "." + UIUtils.GetInputValueFromType( AvailableSurfaceInputs.VIEW_DIR );
+					dataCollector.AddToInput( UniqueId, SurfaceInputs.VIEW_DIR, m_currentPrecisionType );
+					viewDirTan = Constants.InputVarStr + "." + UIUtils.GetInputValueFromType( SurfaceInputs.VIEW_DIR );
 				}
 			}
 			else
 			{
-				viewDirTan = m_viewdirTanPort.GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT3, false, true );
+				viewDirTan = m_viewdirTanPort.GeneratePortInstructions( ref dataCollector );
 			}
 
 			//generate world normal
 			string normalWorld = string.Empty;
 			if ( dataCollector.IsTemplate )
 			{
-				normalWorld = dataCollector.TemplateDataCollectorInstance.GetWorldNormal();
+				normalWorld = dataCollector.TemplateDataCollectorInstance.GetWorldNormal( m_currentPrecisionType );
 			}
 			else
 			{
-				dataCollector.AddToInput( UniqueId, UIUtils.GetInputDeclarationFromType( m_currentPrecisionType, AvailableSurfaceInputs.WORLD_NORMAL ), true );
-				dataCollector.AddToInput( UniqueId, Constants.InternalData, false );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_NORMAL, m_currentPrecisionType );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.INTERNALDATA, addSemiColon: false );
 				normalWorld = GeneratorUtils.GenerateWorldNormal( ref dataCollector, UniqueId );
 			}
 
@@ -244,7 +247,7 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				dataCollector.AddToInput( UniqueId, UIUtils.GetInputDeclarationFromType( PrecisionType.Float, AvailableSurfaceInputs.WORLD_POS ), true );
+				dataCollector.AddToInput( UniqueId, SurfaceInputs.WORLD_POS );
 				worldPos = Constants.InputVarStr + ".worldPos";
 			}
 			dataCollector.AddToLocalVariables( UniqueId, m_currentPrecisionType, WirePortDataType.FLOAT3, WorldDirVarStr, string.Format( "normalize( UnityWorldSpaceViewDir( {0} ) )", worldPos ) );

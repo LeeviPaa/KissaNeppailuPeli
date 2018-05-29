@@ -80,7 +80,7 @@ Material:
     m_Colors:
     - _Col: {r: 0.8897059, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0.061308295, b: 0.28676468, a: 1}
-    - _Emission: {r: 0, g: 0.2748985, b: 0.28676468, a: 1}
+    - _Emission: {r: 0.22523497, g: 0.7703036, b: 1.1081561, a: 1}
     - _EmissionColor: {r: 0, g: 0.6689658, b: 1, a: 1}
     - _Metallic: {r: 0, g: 0, b: 0, a: 0}
     - _Smoothness: {r: 1, g: 1, b: 1, a: 1}

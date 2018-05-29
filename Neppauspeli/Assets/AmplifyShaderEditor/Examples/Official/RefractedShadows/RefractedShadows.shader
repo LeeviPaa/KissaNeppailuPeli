@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'UNITY_INSTANCE_ID' with 'UNITY_VERTEX_INPUT_INSTANCE_ID'
-
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "ASESampleShaders/RefractedShadows"
@@ -65,9 +63,6 @@ Shader "ASESampleShaders/RefractedShadows"
 			#endif
 			float halfPosW9 = ase_screenPos9.w * 0.5;
 			ase_screenPos9.y = ( ase_screenPos9.y - halfPosW9 ) * _ProjectionParams.x* scale9 + halfPosW9;
-			#ifdef UNITY_SINGLE_PASS_STEREO
-			ase_screenPos9.xy = TransformStereoScreenSpaceTex(ase_screenPos9.xy, ase_screenPos9.w);
-			#endif
 			ase_screenPos9.xyzw /= ase_screenPos9.w;
 			float4 screenColor8 = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD( ( ase_screenPos9 + float4( tex2DNode10 , 0.0 ) ) ) );
 			o.Emission = ( ( 1.0 - ( dotResult25 * 0.8 ) ) * screenColor8 ).rgb;
@@ -165,50 +160,50 @@ Shader "ASESampleShaders/RefractedShadows"
 	CustomEditor "ASEMaterialInspector"
 }
 /*ASEBEGIN
-Version=13108
-0;92;721;926;2125.119;1272.63;3.748359;True;False
+Version=13202
+487;574;979;444;2025.876;664.6953;3.45599;False;False
 Node;AmplifyShaderEditor.RangedFloatNode;13;-1398.398,237.6999;Float;False;Property;_NormalScale;Normal Scale;1;0;0;0;1;0;1;FLOAT
-Node;AmplifyShaderEditor.CommentaryNode;33;-682.7992,411.2999;Float;False;444.1991;333.4001;Traditional nDotL to fake custom shadowing;3;6;4;7;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;31;-648.5012,-490.8;Float;False;476.999;396.6;Traditional nDotV to fake thickness;3;25;28;26;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.SamplerNode;10;-1064.799,169.1;Float;True;Property;_NormalMap;Normal Map;0;0;None;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;1.0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1.0;False;5;FLOAT3;FLOAT;FLOAT;FLOAT;FLOAT
-Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;7;-626.5995,632.7;Float;False;1;0;FLOAT;0.0;False;1;FLOAT3
-Node;AmplifyShaderEditor.ViewDirInputsCoordNode;28;-522.2015,-283.2002;Float;False;World;0;4;FLOAT3;FLOAT;FLOAT;FLOAT
-Node;AmplifyShaderEditor.CommentaryNode;32;-553.2001,-27.89989;Float;False;681.9003;359.4998;Simple Refraction with normal perturbance;3;8;12;9;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;31;-648.5012,-490.8;Float;False;476.999;396.6;Traditional nDotV to fake thickness;3;25;28;26;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;33;-682.7992,411.2999;Float;False;444.1991;333.4001;Traditional nDotL to fake custom shadowing;3;6;4;7;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.WorldNormalVector;26;-598.5012,-440.8002;Float;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.WorldNormalVector;4;-632.7992,461.2999;Float;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;FLOAT;FLOAT;FLOAT
-Node;AmplifyShaderEditor.DotProductOpNode;25;-330.5021,-322.8004;Float;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT
-Node;AmplifyShaderEditor.RangedFloatNode;22;-539.9011,771.3002;Float;False;Property;_ShadowTransform;Shadow Transform;2;0;0.5;0;5;0;1;FLOAT
+Node;AmplifyShaderEditor.CommentaryNode;32;-553.2001,-27.89989;Float;False;681.9003;359.4998;Simple Refraction with normal perturbance;3;8;12;9;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;7;-626.5995,632.7;Float;False;1;0;FLOAT;0.0;False;1;FLOAT3
+Node;AmplifyShaderEditor.ViewDirInputsCoordNode;28;-522.2015,-283.2002;Float;False;World;0;4;FLOAT3;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.GrabScreenPosition;9;-503.2005,22.10012;Float;False;0;0;5;FLOAT4;FLOAT;FLOAT;FLOAT;FLOAT
 Node;AmplifyShaderEditor.DotProductOpNode;6;-397.6001,530.8999;Float;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT
-Node;AmplifyShaderEditor.ScaleNode;30;-97.90162,-189.4999;Float;False;0.8;1;0;FLOAT;0.0;False;1;FLOAT
-Node;AmplifyShaderEditor.SimpleAddOpNode;12;-256,144;Float;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0.0,0,0,0;False;1;FLOAT4
+Node;AmplifyShaderEditor.DotProductOpNode;25;-330.5021,-322.8004;Float;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT
+Node;AmplifyShaderEditor.RangedFloatNode;22;-539.9011,771.3002;Float;False;Property;_ShadowTransform;Shadow Transform;2;0;0.5;0;5;0;1;FLOAT
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;23;-176.8009,670.4999;Float;False;3;0;FLOAT;0.0;False;1;FLOAT;0.5;False;2;FLOAT;0.5;False;1;FLOAT
-Node;AmplifyShaderEditor.OneMinusNode;29;94.29845,-138.0001;Float;False;1;0;FLOAT;0.0;False;1;FLOAT
-Node;AmplifyShaderEditor.SaturateNode;20;33.49896,590.6998;Float;False;1;0;FLOAT;0.0;False;1;FLOAT
+Node;AmplifyShaderEditor.SimpleAddOpNode;12;-256,144;Float;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0.0,0,0,0;False;1;FLOAT4
+Node;AmplifyShaderEditor.ScaleNode;30;-97.90162,-189.4999;Float;False;0.8;1;0;FLOAT;0.0;False;1;FLOAT
 Node;AmplifyShaderEditor.ScreenColorNode;8;-88.29998,119.5999;Float;False;Global;_GrabScreen0;Grab Screen 0;1;0;Object;-1;False;1;0;FLOAT4;0,0,0,0;False;5;COLOR;FLOAT;FLOAT;FLOAT;FLOAT
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;27;295.2985,-33.50013;Float;False;2;2;0;FLOAT;0.0;False;1;COLOR;0;False;1;COLOR
+Node;AmplifyShaderEditor.SaturateNode;20;33.49896,590.6998;Float;False;1;0;FLOAT;0.0;False;1;FLOAT
+Node;AmplifyShaderEditor.OneMinusNode;29;94.29845,-138.0001;Float;False;1;0;FLOAT;0.0;False;1;FLOAT
 Node;AmplifyShaderEditor.OneMinusNode;18;212.4997,445.4994;Float;False;1;0;FLOAT;0.0;False;1;FLOAT
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;27;295.2985,-33.50013;Float;False;2;2;0;FLOAT;0.0;False;1;COLOR;0;False;1;COLOR
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;526.9,-104.2;Float;False;True;2;Float;ASEMaterialInspector;0;0;BlinnPhong;ASESampleShaders/RefractedShadows;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;0;False;0;0;Translucent;0.5;True;True;0;False;Opaque;Transparent;ForwardOnly;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;False;0;255;255;0;0;0;0;False;0;4;10;25;False;0.5;True;0;Zero;Zero;0;Zero;Zero;Add;Add;0;False;0;0,0,0,0;VertexOffset;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;0;0;14;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0.0;False;4;FLOAT;0.0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0.0;False;9;FLOAT;0.0;False;10;OBJECT;0;False;11;FLOAT3;0.0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;10;5;13;0
 WireConnection;26;0;10;0
 WireConnection;4;0;10;0
-WireConnection;25;0;26;0
-WireConnection;25;1;28;0
 WireConnection;6;0;4;0
 WireConnection;6;1;7;0
-WireConnection;30;0;25;0
-WireConnection;12;0;9;0
-WireConnection;12;1;10;0
+WireConnection;25;0;26;0
+WireConnection;25;1;28;0
 WireConnection;23;0;6;0
 WireConnection;23;1;22;0
 WireConnection;23;2;22;0
-WireConnection;29;0;30;0
-WireConnection;20;0;23;0
+WireConnection;12;0;9;0
+WireConnection;12;1;10;0
+WireConnection;30;0;25;0
 WireConnection;8;0;12;0
+WireConnection;20;0;23;0
+WireConnection;29;0;30;0
+WireConnection;18;0;20;0
 WireConnection;27;0;29;0
 WireConnection;27;1;8;0
-WireConnection;18;0;20;0
 WireConnection;0;2;27;0
 WireConnection;0;9;18;0
 ASEEND*/
-//CHKSM=EAD8CE858C63EB2DAABFA59DE9586057878F4762
+//CHKSM=07C921B5E38AF05C003671AE4D03E15F1682F35C

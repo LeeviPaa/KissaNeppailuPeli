@@ -55,6 +55,10 @@ namespace AmplifyShaderEditor
 			if( m_inputPorts[ 1 ].IsConnected )
 				type2 = m_inputPorts[ 1 ].GetOutputConnection( 0 ).DataType;
 
+			WirePortDataType typealpha = WirePortDataType.FLOAT;
+			if( m_inputPorts[ 2 ].IsConnected )
+				typealpha = m_inputPorts[ 2 ].GetOutputConnection( 0 ).DataType;
+
 			m_mainDataType = UIUtils.GetPriority( type1 ) > UIUtils.GetPriority( type2 ) ? type1 : type2;
 
 			if( !m_inputPorts[ 0 ].IsConnected && !m_inputPorts[ 1 ].IsConnected && m_inputPorts[ 2 ].IsConnected )
@@ -63,7 +67,7 @@ namespace AmplifyShaderEditor
 			m_inputPorts[ 0 ].ChangeType( m_mainDataType, false );
 
 			m_inputPorts[ 1 ].ChangeType( m_mainDataType, false );
-			if( m_inputPorts[ 2 ].IsConnected && m_inputPorts[ 2 ].GetOutputConnection( 0 ).DataType == WirePortDataType.FLOAT )
+			if( m_inputPorts[ 2 ].IsConnected && ( typealpha == WirePortDataType.FLOAT || typealpha == WirePortDataType.INT ) )
 				m_inputPorts[ 2 ].ChangeType( WirePortDataType.FLOAT, false );
 			else
 				m_inputPorts[ 2 ].ChangeType( m_mainDataType, false );
@@ -84,8 +88,8 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalVar )
 		{
-			if ( m_outputPorts[ 0 ].IsLocalValue )
-				return m_outputPorts[ 0 ].LocalValue;
+			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
+				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 
 			string aValue = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, m_mainDataType, ignoreLocalVar, true );
 			string bValue = m_inputPorts[ 1 ].GenerateShaderForOutput( ref dataCollector, m_mainDataType, ignoreLocalVar, true );
@@ -98,7 +102,7 @@ namespace AmplifyShaderEditor
 
 			RegisterLocalVariable( 0, result, ref dataCollector, "lerpResult"+OutputId );
 			
-			return m_outputPorts[ 0 ].LocalValue;
+			return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
 		}
 		public override void RefreshExternalReferences()
 		{

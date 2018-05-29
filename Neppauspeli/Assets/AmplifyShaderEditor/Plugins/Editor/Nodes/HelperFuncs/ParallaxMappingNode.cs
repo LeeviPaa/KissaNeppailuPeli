@@ -31,8 +31,9 @@ namespace AmplifyShaderEditor
 			AddInputPort( WirePortDataType.FLOAT3, false, "ViewDir (tan)" );
 			AddOutputPort( WirePortDataType.FLOAT2, "Out" );
 			m_useInternalPortData = true;
+			m_autoDrawInternalPortData = true;
 			m_autoWrapProperties = true;
-			m_textLabelWidth = 100;
+			m_textLabelWidth = 105;
 			UpdateTitle();
 			m_forceDrawPreviewAsPlane = true;
 			m_hasLeftDropdown = true;
@@ -59,21 +60,21 @@ namespace AmplifyShaderEditor
 		{
 			base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 
-			string textcoords = m_inputPorts[ 0 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT2, false, true );
-			string height = m_inputPorts[ 1 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
-			string scale = m_inputPorts[ 2 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT, false, true );
-			string viewDirTan = m_inputPorts[ 3 ].GenerateShaderForOutput( ref dataCollector, WirePortDataType.FLOAT3, false, true );
-			string localVarName = "Offset" + UniqueId;
+			string textcoords = m_inputPorts[ 0 ].GeneratePortInstructions( ref dataCollector );
+			string height = m_inputPorts[ 1 ].GeneratePortInstructions( ref dataCollector );
+			string scale = m_inputPorts[ 2 ].GeneratePortInstructions( ref dataCollector );
+			string viewDirTan = m_inputPorts[ 3 ].GeneratePortInstructions( ref dataCollector );
+			string localVarName = "Offset" + OutputId;
 			string calculation = "";
 
 			switch( m_selectedParallaxType )
 			{
 				default:
 				case ParallaxType.Normal:
-				calculation = "( ( " + height + " - 1.0 ) * " + viewDirTan + ".xy * " + scale + " ) + " + textcoords;
+				calculation = "( ( " + height + " - 1 ) * " + viewDirTan + ".xy * " + scale + " ) + " + textcoords;
 				break;
 				case ParallaxType.Planar:
-				calculation = "( ( " + height + " - 1.0 ) * ( " + viewDirTan + ".xy / " + viewDirTan + ".z ) * " + scale + " ) + " + textcoords;
+				calculation = "( ( " + height + " - 1 ) * ( " + viewDirTan + ".xy / " + viewDirTan + ".z ) * " + scale + " ) + " + textcoords;
 				break;
 			}
 
@@ -114,7 +115,7 @@ namespace AmplifyShaderEditor
 				}
 				UpdateTitle();
 			}
-			
+
 			EditorGUILayout.HelpBox( "Normal type does a cheaper approximation thats view dependent while Planar is more accurate but generates higher aliasing artifacts at steep angles.", MessageType.None );
 		}
 
