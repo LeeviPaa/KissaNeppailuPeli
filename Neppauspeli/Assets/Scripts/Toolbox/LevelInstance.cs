@@ -39,7 +39,7 @@ public class LevelInstance : MonoBehaviour {
 
     private int levelToLoad = 0;
 
-    //persistency
+    //persistant
     private GameSaveData saveData;
     public GameSaveData SaveData
     {
@@ -337,4 +337,8 @@ public class LevelInstance : MonoBehaviour {
         SaveGameData(saveData);
     }
     #endregion
+    public void ExitApplication()
+    {
+        Application.Quit();
+    }
 }
