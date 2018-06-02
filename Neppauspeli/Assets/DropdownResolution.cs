@@ -39,8 +39,5 @@ public class DropdownResolution : MonoBehaviour {
             Screen.SetResolution(r.width, r.height, Screen.fullScreen);
         }
     }
-    public void ToggleFullscreen(Toggle toggle)
-    {
-        Screen.fullScreen = toggle.isOn;
-    }
+    
 }

@@ -1817,6 +1817,7 @@ MonoBehaviour:
   MaxMinUpForce: 1
   Lookat: {fileID: 1082973269158252}
   DragIndicator: {fileID: 116560}
+  analogSpeedTurn: 5
 --- !u!114 &114696512757616534
 MonoBehaviour:
   m_ObjectHideFlags: 1

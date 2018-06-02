@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuController : MonoBehaviour {
 
@@ -15,6 +16,9 @@ public class MenuController : MonoBehaviour {
     public Text FinalTokenCounter;
     public Text FinalTimeCounter;
     public Text FinalTotalPoints;
+
+    public EventSystem es;
+    public GameObject finalButton;
 
     private LevelInstance LI;
     private EventManager EM;
@@ -54,6 +58,9 @@ public class MenuController : MonoBehaviour {
     }
     private void ListenGameComplete()
     {
+        if(es != null && finalButton != null)
+            es.SetSelectedGameObject(finalButton);
+
         WinUI.SetActive(true);
         FinalFlickCounter.text = LI.getFlickPoints().ToString();
         FinalTokenCounter.text = LI.getCollectibleTokenPoints().ToString();

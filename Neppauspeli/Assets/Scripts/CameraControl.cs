@@ -22,7 +22,7 @@ public class CameraControl : MonoBehaviour {
 	void Update ()
     {
         movement();
-        float delta = Input.GetAxis("Mouse ScrollWheel");
+        float delta = Input.GetAxis("Mouse ScrollWheel") - Input.GetAxis("Vertical2")*Time.deltaTime*5;
         if (delta != 0 && cameraClose != null && cameraFar != null)
         {
             currScroll += delta * Time.deltaTime * scrollSpeed;
@@ -34,6 +34,6 @@ public class CameraControl : MonoBehaviour {
     void movement()
     {
         transform.position = player.transform.position;
-        transform.Rotate(0, Input.GetAxis("Horizontal2")*rotspeed*Time.deltaTime, 0);
+        transform.Rotate(0, (Input.GetAxis("Horizontal2"))*rotspeed*Time.deltaTime, 0);
     }
 }

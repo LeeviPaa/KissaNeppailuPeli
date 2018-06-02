@@ -21,7 +21,9 @@ public class MouseControl : MonoBehaviour
     private player_movement Playerscript;
     private GameObject player;
     private bool dragging = false;
+    private bool analogDragging = false;
     private int FlickCounter = 0;
+    public float analogSpeedTurn = 30;
 
     private bool GameGoing = true;
     private bool GameComplete = false;
@@ -96,11 +98,26 @@ public class MouseControl : MonoBehaviour
             Lookat.transform.position = player.transform.forward;
             DragDir();
         }
+
+        if(Input.GetButtonDown("Fire2"))
+        {
+            analogDragging = true;
+            upForce = 0;
+        }
+        if(Input.GetButtonUp("Fire2"))
+        {
+            FlickCounter++;
+            LI.NeppausIncrement();
+            analogDragging = false;
+            Lookat.transform.position = player.transform.forward;
+            DragDir();
+        }
     }
+    Vector2 prevDir = Vector2.zero;
     void MouseRot()
     {
         CurrDirVector = CurrMousePos - new Vector2(Screen.width / 2, Screen.height / 2);
-        dragDistance2 = Mathf.Clamp(Mathf.Sqrt(Mathf.Pow(CurrDirVector.x, 2) + Mathf.Pow(CurrDirVector.y*1.7f, 2)), 0, 400);
+        dragDistance2 = Mathf.Clamp(Mathf.Sqrt(Mathf.Pow(CurrDirVector.x, 2) + Mathf.Pow(CurrDirVector.y*1.7f, 2)), 0, 400)*1920/Screen.width;
         Vector3 to = new Vector3(CurrDirVector.x/10,0,CurrDirVector.y/10);
         Lookat.transform.localPosition = to;
 
@@ -108,6 +125,7 @@ public class MouseControl : MonoBehaviour
         {
             if (Input.GetAxis("Vertical") < -0.1f || Input.GetAxis("Vertical") > 0.1f)
             {
+
                 upForce += Input.GetAxis("Vertical") * upForceDelta * Time.deltaTime;
                 upForce = Mathf.Clamp(upForce, -2, 2);
                 DragIndicator.transform.localRotation = Quaternion.Euler(upForce*30,0,0);
@@ -116,6 +134,28 @@ public class MouseControl : MonoBehaviour
 
             player.transform.LookAt(Lookat.transform);
             DragIndicator.transform.localScale = new Vector3(1, 1, -dragDistance2 / 40);
+        }
+        else if(analogDragging)
+        {
+            CurrDirVector = Vector2.Lerp(prevDir, new Vector2(Input.GetAxis("Horizontal3"), -Input.GetAxis("Vertical3")) * 300, analogSpeedTurn*Time.deltaTime);
+            prevDir = CurrDirVector;
+            dragDistance2 = Mathf.Clamp(Mathf.Sqrt(Mathf.Pow(CurrDirVector.x, 2) + Mathf.Pow(CurrDirVector.y * 1.7f, 2)), 0, 400);
+            to = new Vector3(CurrDirVector.x / 10, 0, CurrDirVector.y / 10);
+            Lookat.transform.localPosition = to;
+
+            if (analogDragging)
+            {
+                if (Input.GetAxis("Vertical4") < -0.1f || Input.GetAxis("Vertical4") > 0.1f)
+                {
+                    upForce += Input.GetAxis("Vertical4") * upForceDelta * Time.deltaTime;
+                    upForce = Mathf.Clamp(upForce, -2, 2);
+                    DragIndicator.transform.localRotation = Quaternion.Euler(upForce * 30, 0, 0);
+                    //Debug.Log(upForce);
+                }
+
+                player.transform.LookAt(Lookat.transform);
+                DragIndicator.transform.localScale = new Vector3(1, 1, -dragDistance2 / 40);
+            }
         }
         else
         {

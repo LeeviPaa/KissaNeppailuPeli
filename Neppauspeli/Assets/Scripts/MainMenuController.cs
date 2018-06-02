@@ -100,44 +100,53 @@ public class MainMenuController : MonoBehaviour {
             Debug.LogError("CameraTarget not found!!");
 
 
-        if (Input.GetKeyDown(KeyCode.Keypad2))
-            UnlockLevel(2);
-        if (Input.GetKeyDown(KeyCode.Keypad3))
-            UnlockLevel(3);
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-            UnlockLevel(4);
-        if (Input.GetKeyDown(KeyCode.Keypad5))
-            UnlockLevel(5);
-        if (Input.GetKeyDown(KeyCode.Keypad6))
-            UnlockLevel(6);
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-            UnlockLevel(7);
-        if (Input.GetKeyDown(KeyCode.Keypad8))
-            UnlockLevel(8);
-        if (Input.GetKeyDown(KeyCode.Keypad9))
-            UnlockLevel(9);
-        if (Input.GetKeyDown(KeyCode.Keypad0))
-            UnlockLevel(10);
-        if (Input.GetKeyDown(KeyCode.Keypad1) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(11);
-        if (Input.GetKeyDown(KeyCode.Keypad2) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(12);
-        if (Input.GetKeyDown(KeyCode.Keypad3) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(13);
-        if (Input.GetKeyDown(KeyCode.Keypad4) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(14);
-        if (Input.GetKeyDown(KeyCode.Keypad5) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(15);
-        if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(16);
-        if (Input.GetKeyDown(KeyCode.Keypad7) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(17);
-        if (Input.GetKeyDown(KeyCode.Keypad8) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(18);
-        if (Input.GetKeyDown(KeyCode.Keypad9) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(19);
-        if (Input.GetKeyDown(KeyCode.Keypad0) && Input.GetKey(KeyCode.RightControl))
-            UnlockLevel(20);
+        //if (Input.GetKeyDown(KeyCode.Keypad2))
+        //    UnlockLevel(2);
+        //if (Input.GetKeyDown(KeyCode.Keypad3))
+        //    UnlockLevel(3);
+        //if (Input.GetKeyDown(KeyCode.Keypad4))
+        //    UnlockLevel(4);
+        //if (Input.GetKeyDown(KeyCode.Keypad5))
+        //    UnlockLevel(5);
+        //if (Input.GetKeyDown(KeyCode.Keypad6))
+        //    UnlockLevel(6);
+        //if (Input.GetKeyDown(KeyCode.Keypad7))
+        //    UnlockLevel(7);
+        //if (Input.GetKeyDown(KeyCode.Keypad8))
+        //    UnlockLevel(8);
+        //if (Input.GetKeyDown(KeyCode.Keypad9))
+        //    UnlockLevel(9);
+        //if (Input.GetKeyDown(KeyCode.Keypad0))
+        //    UnlockLevel(10);
+        //if (Input.GetKeyDown(KeyCode.Keypad1) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(11);
+        //if (Input.GetKeyDown(KeyCode.Keypad2) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(12);
+        //if (Input.GetKeyDown(KeyCode.Keypad3) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(13);
+        //if (Input.GetKeyDown(KeyCode.Keypad4) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(14);
+        //if (Input.GetKeyDown(KeyCode.Keypad5) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(15);
+        //if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(16);
+        //if (Input.GetKeyDown(KeyCode.Keypad7) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(17);
+        //if (Input.GetKeyDown(KeyCode.Keypad8) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(18);
+        //if (Input.GetKeyDown(KeyCode.Keypad9) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(19);
+        //if (Input.GetKeyDown(KeyCode.Keypad0) && Input.GetKey(KeyCode.RightControl))
+        //    UnlockLevel(20);
+
+        if(Input.GetButtonDown("BumperLeft"))
+        {
+            TryMapLeft();
+        }
+        if(Input.GetButtonDown("BumperRight"))
+        {
+            TryMapRight();
+        }
     }
 
     public void TryMapRight()
