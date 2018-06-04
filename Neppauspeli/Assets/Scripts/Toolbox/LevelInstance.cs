@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Steamworks;
 
 public struct GameInstanceData
 {
@@ -36,6 +37,7 @@ public class LevelInstance : MonoBehaviour {
     public GlobalScoreData_SC globalData;
     private delegate void OnLevelWasLoaded();
     public Animator fadeAtor;
+    private LeaderboardManager lbm;
 
     private int levelToLoad = 0;
 
@@ -48,9 +50,10 @@ public class LevelInstance : MonoBehaviour {
             return saveData;
         }
     }
-
+    
     private void OnEnable()
     {
+        lbm = Toolbox.RegisterComponent<LeaderboardManager>();
         Debug.Log(Application.persistentDataPath);
         //Find savedata
         saveData = LoadGameSaveData();
@@ -93,6 +96,9 @@ public class LevelInstance : MonoBehaviour {
             StartCoroutine(Timer());
 
             Debug.LogWarning("levelWasLoaded called");
+
+            lbm.FindLeaderboardWithSceneIndex(scene.buildIndex);
+            
         }
         else
         {
@@ -138,6 +144,7 @@ public class LevelInstance : MonoBehaviour {
         GameGoing = false;
         EM.BroadcastGameComplete();
         LevelComplete();
+        lbm.UploadScore(getTotalPoints());
     }
     public void LoadLevelIndex(int index)
     {
@@ -320,7 +327,7 @@ public class LevelInstance : MonoBehaviour {
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         Debug.Log(sceneIndex);
 
-        if(sceneIndex == 18)
+        if(sceneIndex == 15)
         {
             EM.BroadcastAchivementFinalLevel();
         }
@@ -337,6 +344,8 @@ public class LevelInstance : MonoBehaviour {
         SaveGameData(saveData);
     }
     #endregion
+
+
     public void ExitApplication()
     {
         Application.Quit();

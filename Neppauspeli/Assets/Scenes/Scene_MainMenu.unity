@@ -21410,7 +21410,6 @@ MonoBehaviour:
   - cameraTarget: {fileID: 571944469}
     SceneIndex: 14
     unlocked: 0
-  m_nLeaderboardEntries: 0
 --- !u!82 &1503217965
 AudioSource:
   m_ObjectHideFlags: 0
@@ -28518,6 +28517,18 @@ Transform:
   m_PrefabParentObject: {fileID: 4815254673275346, guid: b7fdf0df8ab7e3a4f8496d40e39b3700,
     type: 2}
   m_PrefabInternal: {fileID: 1883419175}
+--- !u!114 &1883419182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1883419176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2da60374d8a79468c9c326b3847845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_nLeaderboardEntries: 0
 --- !u!1 &1890412376
 GameObject:
   m_ObjectHideFlags: 0
