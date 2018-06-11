@@ -51,7 +51,7 @@ public class MenuController : MonoBehaviour {
         EM.PlayerDied -= PlayerDie;
         EM.PlayerRespawn -= PlayerRespawn;
     }
-    public void ListenTimerUpdate(int time)
+    public void ListenTimerUpdate(float time)
     {
         if (Timer != null)
             Timer.text = "Time: " + time.ToString();

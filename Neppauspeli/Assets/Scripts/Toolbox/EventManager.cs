@@ -6,6 +6,7 @@ public class EventManager : MonoBehaviour
     public delegate void ExampleEventDelegate();
     public delegate void Void();
     public delegate void IntVoid(int i);
+    public delegate void FloatVoid(float f);
 
     public event ExampleEventDelegate exampleEvent;
     public event Void gamePaused;
@@ -13,7 +14,7 @@ public class EventManager : MonoBehaviour
 
     public event IntVoid TokenAmount;
     public event IntVoid NeppausAmount;
-    public event IntVoid LevelTimerUpdate;
+    public event FloatVoid LevelTimerUpdate;
 
     public event Void GameComplete;
 
@@ -64,7 +65,7 @@ public class EventManager : MonoBehaviour
             GameComplete();
         }
     }
-    public void BroadcastLevelTimerUpdate(int currTime)
+    public void BroadcastLevelTimerUpdate(float currTime)
     {
         if(LevelTimerUpdate != null)
         {

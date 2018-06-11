@@ -109,9 +109,11 @@ public class LevelInstance : MonoBehaviour {
     {
         while (GameGoing)
         {
-            yield return new WaitForSeconds(1);
-            CurrGameInstance.time++;
-            EM.BroadcastLevelTimerUpdate((int)CurrGameInstance.time);
+            yield return null;
+            float t = CurrGameInstance.time + Time.deltaTime;
+            t = Mathf.Round(t * 100) / 100;
+            CurrGameInstance.time = t;
+            EM.BroadcastLevelTimerUpdate(CurrGameInstance.time);
         }
     }
     #region Public game-control methods
@@ -171,11 +173,11 @@ public class LevelInstance : MonoBehaviour {
             return CurrGameInstance.flicks;
         }
     }
-    public int getTime
+    public float getTime
     {
         get
         {
-            return (int)CurrGameInstance.time;
+            return CurrGameInstance.time;
         }
     }
     public int getTokens
@@ -227,15 +229,15 @@ public class LevelInstance : MonoBehaviour {
         int points = globalData.collectibleTokenValue * CurrGameInstance.tokens;
         return points;
     }
-    public int getTimeMultiplier()
+    public float getTimeMultiplier()
     {
-        float multiplier = globalData.inverseTimeMultiplier - ((float)CurrGameInstance.time/10);
+        float multiplier = globalData.inverseTimeMultiplier - (CurrGameInstance.time/10);
 
-        return (int)multiplier;
+        return multiplier;
     }
     public int getTotalPoints()
     {
-        int points = (getFlickPoints() + getCollectibleTokenPoints()) * getTimeMultiplier();
+        int points = (int)((getFlickPoints() + getCollectibleTokenPoints()) * getTimeMultiplier());
         if(points >= 6000000)
         {
             EM.BroadcastAchivementMillionare();
