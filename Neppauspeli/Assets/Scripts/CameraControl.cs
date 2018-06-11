@@ -27,8 +27,8 @@ public class CameraControl : MonoBehaviour {
         {
             currScroll += delta * Time.deltaTime * scrollSpeed;
             currScroll = Mathf.Clamp(currScroll, 0, 1);
-        }
         transformCamera.position = Vector3.Lerp(cameraClose.position, cameraFar.position, currScroll);
+        }
 
     }
     void movement()
