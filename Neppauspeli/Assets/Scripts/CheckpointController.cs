@@ -9,6 +9,8 @@ public class CheckpointController : MonoBehaviour {
     public GameObject TheLamp;
     public Material NonEmissive;
     public Material Emissive;
+    public AudioSource ac;
+    public AudioClip checkpointClip;
 
     private void Start()
     {
@@ -38,6 +40,10 @@ public class CheckpointController : MonoBehaviour {
             if (TheLamp != null && Emissive != null)
             {
                 TheLamp.GetComponent<MeshRenderer>().material = Emissive;
+            }
+            if(ac != null)
+            {
+                ac.PlayOneShot(checkpointClip);
             }
             triggered = true;
         }

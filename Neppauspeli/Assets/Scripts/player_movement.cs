@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class player_movement : MonoBehaviour {
 
@@ -16,6 +17,13 @@ public class player_movement : MonoBehaviour {
     public GameObject brakingVisuals;
     public GameObject deathVisuals;
     public GameObject normalVisuals;
+
+    public AudioClip nep1;
+    public AudioClip nep2;
+    public AudioClip hit1;
+    public AudioClip hit2;
+    public AudioClip catDie;
+    public AudioSource ac;
 
     private bool GameGoing = true;
     private bool GameComplete = false;
@@ -114,6 +122,16 @@ public class player_movement : MonoBehaviour {
     public void applyForce(Vector3 forceVector, float distanceSpeed)
     {
         thisrigid.AddForce((transform.forward + forceVector)*-distanceSpeed);
+        int i = UnityEngine.Random.Range(0, 1);
+
+        if(i == 0)
+        {
+            ac.PlayOneShot(nep1);
+        }
+        else
+        {
+            ac.PlayOneShot(nep2);
+        }
 
     }
     public void Die()
@@ -124,6 +142,9 @@ public class player_movement : MonoBehaviour {
             deathVisuals.SetActive(true);
         if(normalVisuals != null)
             normalVisuals.SetActive(false);
+
+        if (ac != null)
+            ac.PlayOneShot(catDie);
     }
     public void Respawn()
     {
@@ -133,5 +154,29 @@ public class player_movement : MonoBehaviour {
             deathVisuals.SetActive(false);
         if (normalVisuals != null)
             normalVisuals.SetActive(true);
+    }
+    bool timerOn = false;
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (ac != null && !timerOn && collision.relativeVelocity.magnitude > 1)
+        {
+            int i = UnityEngine.Random.Range(0, 1);
+
+            if (i == 0)
+            {
+                ac.PlayOneShot(hit1, Mathf.Clamp(collision.relativeVelocity.magnitude/5, 0, 1));
+            }
+            else
+            {
+                ac.PlayOneShot(hit2, Mathf.Clamp(collision.relativeVelocity.magnitude/5, 0, 1));
+            }
+            StartCoroutine(ITimer());
+        }
+    }
+    IEnumerator ITimer()
+    {
+        timerOn = true;
+        yield return new WaitForSeconds(0.15f);
+        timerOn = false;
     }
 }

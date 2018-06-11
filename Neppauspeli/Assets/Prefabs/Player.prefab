@@ -564,6 +564,12 @@ MonoBehaviour:
   brakingVisuals: {fileID: 1035717492412602}
   deathVisuals: {fileID: 1132710230410920}
   normalVisuals: {fileID: 1253017580892130}
+  nep1: {fileID: 8300000, guid: 3582fcf880b6ab546b5b2d4d6897c26f, type: 3}
+  nep2: {fileID: 8300000, guid: 5241140184427aa43ad894a0230d5f4c, type: 3}
+  hit1: {fileID: 8300000, guid: 97cc71b3cdbd45b46895d6408f6dbba5, type: 3}
+  hit2: {fileID: 8300000, guid: 15d0819ca72bb4745ad49f0ab8faf970, type: 3}
+  catDie: {fileID: 8300000, guid: c8de528ec62d3fb49abe7c9b70c83453, type: 3}
+  ac: {fileID: 82630687291092420}
 --- !u!114 &11468238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -678,6 +684,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4493470165181672}
+  - component: {fileID: 82280520766641426}
   m_Layer: 0
   m_Name: BrakingEffect
   m_TagString: Untagged
@@ -762,7 +769,7 @@ GameObject:
   m_Layer: 0
   m_Name: CameraClose
   m_TagString: Untagged
-  m_Icon: {fileID: 8220585740371884164, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -808,7 +815,6 @@ GameObject:
   - component: {fileID: 4200371909594094}
   - component: {fileID: 114165209051277426}
   - component: {fileID: 114861056989207414}
-  - component: {fileID: 82591497908028470}
   m_Layer: 0
   m_Name: Controller
   m_TagString: GameController
@@ -1013,7 +1019,7 @@ GameObject:
   m_Layer: 0
   m_Name: CameraFar
   m_TagString: Untagged
-  m_Icon: {fileID: 8220585740371884164, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1578,20 +1584,20 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1691320597823110}
   m_Enabled: 1
---- !u!82 &82591497908028470
+--- !u!82 &82280520766641426
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1303375940657344}
+  m_GameObject: {fileID: 1035717492412602}
   m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9ac47b0d5bcde2541877761ba262f4d7, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a6bf86d87dc7888469fce7b19fdfd6e3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.63
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1642,7 +1648,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1657,7 +1663,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1672,7 +1678,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
 --- !u!82 &82630687291092420
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1685,7 +1691,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.33
+  m_Volume: 0.765
   m_Pitch: 1
   Loop: 0
   Mute: 0

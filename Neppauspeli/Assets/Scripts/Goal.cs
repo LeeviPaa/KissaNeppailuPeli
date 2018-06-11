@@ -7,6 +7,9 @@ public class Goal : MonoBehaviour
     private bool checkinput = false;
     // Use this for initialization
 
+    public AudioSource ac;
+    public AudioClip winAudio;
+
     private EventManager EM;
     private LevelInstance LI;
 	void Start ()
@@ -18,6 +21,10 @@ public class Goal : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            if(ac != null)
+            {
+                ac.PlayOneShot(winAudio);
+            }
             LI.GameComplete();
             EM.BroadcastGamePaused();
             checkinput = true;

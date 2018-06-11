@@ -106,8 +106,6 @@ public class ScoreCanvas : MonoBehaviour {
             print("Leaderboard could not be found");
             return;
         }
-        else
-            print("leaderboard found!");
 
         m_CurrentLeaderboard = pCallback.m_hSteamLeaderboard;
 
