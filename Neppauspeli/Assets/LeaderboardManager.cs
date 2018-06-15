@@ -109,6 +109,9 @@ public class LeaderboardManager : MonoBehaviour
     /// <returns></returns>
     public bool UploadScore(int score)
     {
+        if (!SteamManager.Initialized)
+            return false;
+
         if (m_CurrentLeaderboard == null)
             return false;
 

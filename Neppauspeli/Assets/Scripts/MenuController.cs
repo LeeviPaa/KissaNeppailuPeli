@@ -25,6 +25,8 @@ public class MenuController : MonoBehaviour {
     private bool paused = false;
     private GlobalScoreData_SC levelData;
 
+    private int maxGemsInScene = 1;
+
     private GameObject PauseMenu;
 
     private void OnEnable()
@@ -32,6 +34,7 @@ public class MenuController : MonoBehaviour {
         if (dieUI != null)
             dieUI.SetActive(false);
 
+        maxGemsInScene = FindObjectsOfType<GemController>().Length;
         LI = Toolbox.RegisterComponent<LevelInstance>();
         levelData = LI.getLevelScoreData;
         EM = Toolbox.RegisterComponent<EventManager>();
@@ -41,6 +44,8 @@ public class MenuController : MonoBehaviour {
         EM.LevelTimerUpdate += ListenTimerUpdate;
         EM.PlayerDied += PlayerDie;
         EM.PlayerRespawn += PlayerRespawn;
+
+        TokenCounter.text = "Gems: " + "0" + " / " + maxGemsInScene.ToString();
     }
     private void OnDisable()
     {
@@ -93,7 +98,11 @@ public class MenuController : MonoBehaviour {
     }
     private void ListenTokenIncrement(int tokens)
     {
-        TokenCounter.text = "Gems: "+tokens.ToString();
+        TokenCounter.text = "Gems: "+tokens.ToString() + " / " + maxGemsInScene.ToString();
+
+        print(tokens.ToString() + " " + maxGemsInScene);
+        if (tokens == maxGemsInScene)
+            LI.maxGemsReached();
     }
 
     void Start () {

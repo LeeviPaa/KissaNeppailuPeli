@@ -115,5 +115,14 @@ public class EventManager : MonoBehaviour
             LevelFadeStart();
         }
     }
-    
+
+    public event IntVoid MaxGemsReachedOnMap;
+    public void BroadcastMaxGemsReachedOnMap(int index)
+    {
+        if(MaxGemsReachedOnMap != null)
+        {
+            MaxGemsReachedOnMap(index);
+        }
+    }
+
 }

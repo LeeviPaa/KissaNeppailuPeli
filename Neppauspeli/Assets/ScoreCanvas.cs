@@ -21,6 +21,9 @@ public class ScoreCanvas : MonoBehaviour {
     public Text scoreName;
 
     public int thisMap = 1;
+
+    public Transform gemsOn;
+    private LevelInstance LI;
     
     //steamAPI variables
     private SteamLeaderboard_t m_CurrentLeaderboard;
@@ -33,6 +36,13 @@ public class ScoreCanvas : MonoBehaviour {
 
     private void Start()
     {
+        LI = Toolbox.RegisterComponent<LevelInstance>();
+
+        if (LI.SaveData.leveldata[thisMap - 1].allGemsCollected)
+            gemsOn.gameObject.SetActive(true);
+        else
+            gemsOn.gameObject.SetActive(false);
+
         if (!SteamManager.Initialized)
             return;
 

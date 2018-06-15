@@ -11,6 +11,9 @@ class AchivementManager : MonoBehaviour
     {
         ACH_MILLIONPOINTS = 2,
         ACH_FINALLEVEL = 3,
+        ACH_ONEGEMSREACHED = 6,
+        ACH_TWOGEMSREACHED = 7,
+        ACH_THREEGEMSREACHED = 8,
     };
 
     private Dictionary<Achievement, Achievement_t> m_Achievements = new Dictionary<Achievement, Achievement_t>();
@@ -33,6 +36,7 @@ class AchivementManager : MonoBehaviour
     protected Callback<UserStatsStored_t> m_UserStatsStored;
     protected Callback<UserAchievementStored_t> m_UserAchievementStored;
 
+    LevelInstance LI;
     EventManager em;
     SteamManager sm;
     protected void Awake()
@@ -43,9 +47,19 @@ class AchivementManager : MonoBehaviour
         n = new Achievement_t(Achievement.ACH_FINALLEVEL, "Completionist", "");
         m_Achievements.Add(Achievement.ACH_FINALLEVEL, n);
 
+        n = new Achievement_t(Achievement.ACH_ONEGEMSREACHED, "Gem hunter", "");
+        m_Achievements.Add(Achievement.ACH_ONEGEMSREACHED, n);
+
+        n = new Achievement_t(Achievement.ACH_TWOGEMSREACHED, "Gem master hunter", "");
+        m_Achievements.Add(Achievement.ACH_TWOGEMSREACHED, n);
+
+        n = new Achievement_t(Achievement.ACH_THREEGEMSREACHED, "Gem ultra hunter", "");
+        m_Achievements.Add(Achievement.ACH_THREEGEMSREACHED, n);
+
     }
     protected void OnEnable()
     {
+        LI = Toolbox.RegisterComponent<LevelInstance>();
         if (!SteamManager.Initialized)
             return;
 
@@ -68,6 +82,7 @@ class AchivementManager : MonoBehaviour
         em.TokenAmount += Stat_GemsCollected;
         em.Achivement_FinalLevel += Achivement_FinalLevel;
         em.Achivement_Millionare += Achivement_Millionare;
+        em.MaxGemsReachedOnMap += UpdateAllGemsCollected;
     }
     protected void OnDisable()
     {
@@ -75,8 +90,49 @@ class AchivementManager : MonoBehaviour
         em.TokenAmount -= Stat_GemsCollected;
         em.Achivement_FinalLevel -= Achivement_FinalLevel;
         em.Achivement_Millionare -= Achivement_Millionare;
+        em.MaxGemsReachedOnMap += UpdateAllGemsCollected;
     }
+    private void UpdateAllGemsCollected(int sceneIndex)
+    {
+        GameSaveData gsd = LI.SaveData;
 
+        int levelsOneToFive = 0;
+        int levelsSixToTen = 0;
+        int levelsElevenToFourteen = 0;
+
+        foreach(LevelSaveData lsd in gsd.leveldata)
+        {
+            if(lsd.index <= 5 && lsd.allGemsCollected)
+            {
+                levelsOneToFive++;
+            }
+            if(lsd.index <= 10 && lsd.index > 5 && lsd.allGemsCollected)
+            {
+                levelsSixToTen++;
+            }
+            if (lsd.index > 10 && lsd.allGemsCollected)
+            {
+                levelsElevenToFourteen++;
+            }
+        }
+
+        print("oneto five " + levelsOneToFive);
+        print("six to ten " + levelsSixToTen);
+        print("elevn to fourteen " + levelsElevenToFourteen);
+
+        if (levelsOneToFive >= 5)
+        {
+            Achivement_GemHunter();
+        }
+        if(levelsSixToTen >= 5)
+        {
+            Achivement_GemMasterHunter();
+        }
+        if(levelsElevenToFourteen >= 4)
+        {
+            Achivement_GemUltraHunter();
+        }
+    }
     private void UpdateStats()
     {
         if (!m_bRequestedStats)
@@ -106,6 +162,21 @@ class AchivementManager : MonoBehaviour
     protected void Achivement_FinalLevel()
     {
         UnlockAchievement(m_Achievements[Achievement.ACH_FINALLEVEL]);
+    }
+    protected void Achivement_GemHunter()
+    {
+        UnlockAchievement(m_Achievements[Achievement.ACH_ONEGEMSREACHED]);
+        print("achivement Gem hunter");
+    }
+    protected void Achivement_GemMasterHunter()
+    {
+        UnlockAchievement(m_Achievements[Achievement.ACH_TWOGEMSREACHED]);
+        print("achivement Gem master hunter");
+    }
+    protected void Achivement_GemUltraHunter()
+    {
+        UnlockAchievement(m_Achievements[Achievement.ACH_THREEGEMSREACHED]);
+        print("achivement Gem últra hunter");
     }
     #endregion
     #region Stat methods 

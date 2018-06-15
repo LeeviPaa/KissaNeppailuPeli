@@ -1,0 +1,32 @@
+Thank you for purchasing the Console Button Package. This asset will be updated for more consoles and button icons!
+
+In this package, I have included:
+
+-PlayStation Button Icons (.png, .PSD)
+-Xbox Button Icons (.png, .PSD)
+-more coming soon!
+-PLEASE READ IMPORTANT INFO DOWN BELOW
+
+*.PSD referring to photoshop file in case of user customization
+
+If you feel the need to request a certain console's button icons or have other questions or comments:
+
+-visit kunalthedev.wixsite.com/buttons to email me using the email form
+
+If you have made your own improvements or variations to the buttons, and you would like to share with others
+send me the directory like a github or dropbox, etc. and I will make it available to everyone in the next update.
+
+****** IMPORTANT INFO ******
+I have included 200x200 icons and photoshop files as well as High Resolution (~2000x2000px)
+icons and photoshop files
+
+In unity depending on what resolution you are working in, you may need a higher or lower res. icon
+
+In case the 200x200 icons do not work out for you:
+
+Create a duplicate of the high-resolution folder and rename to your preferred resolution;
+then go into the photoshop file for all the icons you want to resize:
+"image" tab at the top >> "Image Size" >> Then type in desired width and height >> 1000 ppi >> save and export
+
+If you do not own photoshop, contact me and I will release the desired resolution for you for each button set for the next update
+If you feel that I should include a certain resolution, contact me and I will release the desired resolution as fast as I can

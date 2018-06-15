@@ -26,6 +26,7 @@ public struct LevelSaveData
     public int index;
     public bool locked;
     public int highscore;
+    public bool allGemsCollected;
 }
 
 public class LevelInstance : MonoBehaviour {
@@ -38,6 +39,7 @@ public class LevelInstance : MonoBehaviour {
     private delegate void OnLevelWasLoaded();
     public Animator fadeAtor;
     private LeaderboardManager lbm;
+    private CameraShaker CamShake;
 
     private int levelToLoad = 0;
 
@@ -53,6 +55,7 @@ public class LevelInstance : MonoBehaviour {
     
     private void OnEnable()
     {
+        CamShake = Toolbox.RegisterComponent<CameraShaker>();
         lbm = Toolbox.RegisterComponent<LeaderboardManager>();
         Debug.Log(Application.persistentDataPath);
         //Find savedata
@@ -111,7 +114,7 @@ public class LevelInstance : MonoBehaviour {
         {
             yield return null;
             float t = CurrGameInstance.time + Time.deltaTime;
-            t = Mathf.Round(t * 100) / 100;
+            t = Mathf.Round((t * 100)) / 100;
             CurrGameInstance.time = t;
             EM.BroadcastLevelTimerUpdate(CurrGameInstance.time);
         }
@@ -119,11 +122,13 @@ public class LevelInstance : MonoBehaviour {
     #region Public game-control methods
     public void NeppausIncrement()
     {
+        CamShake.ShakeCamera(0.24f, 0.1f, 1, 10);
         CurrGameInstance.flicks++;
         EM.BroadcastNeppausAmount(CurrGameInstance.flicks);
     }
     public void TokenIncrement()
     {
+        CamShake.ShakeCamera(1, 1, 0.5f);
         CurrGameInstance.tokens++;
         EM.BroadcastTokenAmount(CurrGameInstance.tokens);
     }
@@ -297,6 +302,7 @@ public class LevelInstance : MonoBehaviour {
                     ld.locked = true;
 
                 ld.highscore = 0;
+                ld.allGemsCollected = false;
 
                 //Note: This is the 0th index (1st level)
                 newSaveData.leveldata.Add(ld);
@@ -329,7 +335,7 @@ public class LevelInstance : MonoBehaviour {
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         Debug.Log(sceneIndex);
 
-        if(sceneIndex == 15)
+        if(sceneIndex == 14)
         {
             EM.BroadcastAchivementFinalLevel();
         }
@@ -341,9 +347,30 @@ public class LevelInstance : MonoBehaviour {
             lsd.locked = false;
             saveData.leveldata[sceneIndex] = lsd;
         }
+        if(sceneIndex < SaveData.leveldata.Count)
+        {
+            LevelSaveData lsd = saveData.leveldata[sceneIndex];
+            if(lsd.highscore < getTotalPoints())
+            {
+                lsd.highscore = getTotalPoints();
+            }
+        }
 
         //save the data
         SaveGameData(saveData);
+    }
+    public void maxGemsReached()
+    {
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (sceneIndex <= SaveData.leveldata.Count)
+        {
+            LevelSaveData lsd = saveData.leveldata[sceneIndex-1];
+            lsd.allGemsCollected = true;
+            saveData.leveldata[sceneIndex-1] = lsd;
+            EM.BroadcastMaxGemsReachedOnMap(sceneIndex);
+            SaveGameData(SaveData);
+            print("max gems reached!");
+        }
     }
     #endregion
 

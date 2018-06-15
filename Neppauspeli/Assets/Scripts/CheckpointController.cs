@@ -11,9 +11,11 @@ public class CheckpointController : MonoBehaviour {
     public Material Emissive;
     public AudioSource ac;
     public AudioClip checkpointClip;
+    private CameraShaker camShake;
 
     private void Start()
     {
+        camShake = Toolbox.RegisterComponent<CameraShaker>();
         if(TheLamp != null && NonEmissive != null)
         {
             TheLamp.GetComponent<MeshRenderer>().material = NonEmissive;
@@ -45,6 +47,7 @@ public class CheckpointController : MonoBehaviour {
             {
                 ac.PlayOneShot(checkpointClip);
             }
+            camShake.ShakeCamera(0.5f, 1, 1);
             triggered = true;
         }
     }

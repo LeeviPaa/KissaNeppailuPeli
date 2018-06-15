@@ -1,0 +1,11 @@
+In this asset I have a demo scene for each button set.
+The demo scene does nothing but display a sample layout for a GUI
+It's pretty much useless unless you are new to unity and need ideas to get started
+Thanks for buying this asset, please make sure to read the "IMPORTANT INFO" Text File. It includes lots
+of important information. Thanks!
+
+Business Address:
+Email using the email form on the website. Direct customer emails go to my spam.
+
+Website:
+kunalthedev.wixsite.com/buttons
