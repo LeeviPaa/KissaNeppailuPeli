@@ -114,7 +114,6 @@ public class LevelInstance : MonoBehaviour {
         {
             yield return null;
             float t = CurrGameInstance.time + Time.deltaTime;
-            t = Mathf.Round((t * 100)) / 100;
             CurrGameInstance.time = t;
             EM.BroadcastLevelTimerUpdate(CurrGameInstance.time);
         }

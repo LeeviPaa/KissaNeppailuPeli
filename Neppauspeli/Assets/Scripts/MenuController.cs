@@ -58,8 +58,10 @@ public class MenuController : MonoBehaviour {
     }
     public void ListenTimerUpdate(float time)
     {
+        float t = Mathf.Round((time * 100)) / 100;  
+
         if (Timer != null)
-            Timer.text = "Time: " + time.ToString();
+            Timer.text = "Time: " + t;
     }
     private void ListenGameComplete()
     {
